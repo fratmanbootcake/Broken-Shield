@@ -1,29 +1,13 @@
 import random
 import time
+from dice import *
 
-
-
-class Die:
-
-    def __init__(self, number, sides):
-        self.number = number
-        self.sides = sides
-
-    def roll(self):
-        scores = []
-        for x in range(self.number):
-            scores.append(random.randint(1, self.sides))
-
-        scores.sort()
-        return scores
-
-    def check_roll(self):
-        check_score = 0
-        for x in range(self.number):
-            check_score += random.randint(1, self.sides)
-
-        return check_score
-
+"""
+This file outlines the combat to be used in the game. Actions are carried out simultaneously and some actions occur over 
+multiple turns. Status effects such as 'poisoned' or 'stunned' are present. Each combatant has a 'can_act' attribute and 
+some statuses or actions affect this. There are a number of actions defined such as a simple 'strike' or the more powerful
+'cleave'. 
+"""
 
 class Combat:
     def __init__(self, player, mob):
@@ -46,7 +30,10 @@ class Combat:
         self.combat_spells = {'fireball':self.fireball,
                               'frost bolt':self.frost_bolt,
                               'poison cloud':self.poison_cloud}
-
+    
+    """
+    This section determines whether the combatant can attack.
+    """
 
     def can_attack(self, combatant):
         if combatant.status_effects['frozen'] or combatant.status_effects['stunned'] or combatant.charging:
@@ -55,7 +42,11 @@ class Combat:
             return False
         else:
             return True
-
+        
+    """
+    This section contains the methods used to check and set status effects on the combatant. Also included is a 
+    method to set the status effect based on magical or poisoned weapons. 
+    """
 
     def check_status(self, combatant):
         if combatant.status_effects['burned']:
@@ -78,6 +69,9 @@ class Combat:
                 combatant.status_effects[word] = True
                 print("{} has been {}!".format(combatant.name, status))
 
+    """
+    This section contains the methods used to execute status effects.
+    """
 
     def poisoned(self, combatant):
         damage = Die(1,4).roll()[0]
@@ -101,7 +95,11 @@ class Combat:
         combatant.health -= damage
         print("{} suffers {} bleeding damage!".format(combatant.name, damage))
 
-
+    """
+    This section contains the methods used to perform combat actions. Simple physical attack actions are based on the 
+    'hit_roll' method which determines whether at attacker has hit. The output from the named combat action is the damage to 
+    the defender.
+    """
    
     def strike(self, attacker, defender):
         combined_damage = self.hit_roll(attacker, defender, 12)
@@ -181,7 +179,11 @@ class Combat:
             if roll <= 10 + 2*(attacker.combat_skills['kick dust'] if attacker.combat_skills['kick dust'] <= 5 else 5):
                 defender.charging = False
                 defender.charged = False
-    
+
+    """
+    This section contains the methods used to perform magical attacks during combat.
+    """
+                
     def cast(self, attacker, defender):
         print("Which spell would you like to cast?")
         spell_chosen = False
@@ -192,7 +194,7 @@ class Combat:
             if choice in [str(x) for x in range(len(attacker.known_spells)+1)]:
                 spell_chosen = True
                 return choice
-#                return self.combat_spells[attacker.known_spells[int(choice)-1]](attacker, defender)
+                #return self.combat_spells[attacker.known_spells[int(choice)-1]](attacker, defender)
             elif choice not in [str(x) for x in range(len(attacker.known_spells))]:
                 print("Please enter a valid command")
 
@@ -228,7 +230,14 @@ class Combat:
             self.set_status('poisoned', attacker)
             #mishap
             return
-            
+    
+    """
+    This section contains the method hit_roll which determines whether an attack has hit the defender based on a target number.
+    The mechanic is to roll 2d10 and sum the result, giving a bell-curve distribution. The defender's modifier is based on the 
+    type of armour they are wearing and the attacker's is based on their skill with that kind of weapon. Damage is modified
+    based on the resistance or weakness of the armour and the damage type of the weapon. 
+    """
+    
     def hit_roll(self, attacker, defender, target_number):
         attacker_roll = Die(2,10).check_roll() + (0 if not attacker.status_effects['blinded'] else - 2) 
         combined_damage = 0
@@ -256,7 +265,9 @@ class Combat:
             combined_damage *= 1.25      
         return int(combined_damage) 
 
-
+    """
+    This section contains the methods used to get player input.
+    """
 
     def get_player_action(self):
         combat_actions = [skill for skill in self.player.combat_skills.keys() if self.player.combat_skills[skill] > 0]
@@ -284,7 +295,10 @@ class Combat:
 
         return (damage, damage_reduction, damage_reflection, life_steal)
 
-
+    """
+    This section contains the methods used to decide the mob's action. A weighted list is used with each set of weighting unique
+    to the mob. 
+    """
 
     def get_mob_action(self):
         actions = [skill for skill in self.mob.combat_skills.keys() if self.mob.combat_skills[skill] > 0]
@@ -303,7 +317,10 @@ class Combat:
             
         return (damage, damage_reduction, damage_reflection, life_steal)
 
-
+    """
+    This section contains a generic method to carry out a combat action. The damage, damage reduction, damage reflection
+    and life steal are returned as a tuple. 
+    """
 
     def carry_out_action(self, action, attacker, defender):
         damage, damage_reduction, damage_reflection, life_steal = 0, 0, 0, 0
@@ -333,7 +350,12 @@ class Combat:
     def combat_output(self, player, mob, player_damage, mob_damage):
         pass
 
-
+    """
+    This section contains the main combat round method. The status of each combatant is checked, any relevant status effect 
+    methods are called. The player and mob round stats (the tuple of damage, damage reduction, damage reflection and life steal)
+    is collected. The total damage to both the player and the mob is the calculated and removed from their health. Any life steal
+    is then given to the player and mob. Finally, the mob's update method is run before re-entering the loop. 
+    """
 
     def battle(self, player, mob):
         combatants = [player, mob]
@@ -361,18 +383,9 @@ class Combat:
 
         if not mob.is_alive():
             print("You win!")
-        if player.is_alive():
+        if not player.is_alive():
             print("You lose!")
 
-
-def sims(n):
-    avg_damage = 0
-    for x in range(n):
-        avg_damage += c.strike(jo,og)
-
-    print(int(avg_damage / n))
-    print(jo.attribute_modifiers)
-    print(og.attribute_modifiers)
 
 
 
