@@ -312,7 +312,7 @@ type 'quit' to leave the game.""")
         This is the main game loop.
         """
         count = 0
-        while self.player.is_alive() and not self.game_solved:
+        while not self.game_solved:
             count += 1
             self.prompt(self.player)
             
@@ -324,6 +324,9 @@ type 'quit' to leave the game.""")
                 for i, room in enumerate(self.rooms):
                     if isinstance(room, EnemyRoom):
                         room.random_mob()
+            
+            if not self.player.is_alive():
+                sys.exit()
                         
             
 
