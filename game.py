@@ -312,7 +312,10 @@ type 'quit' to leave the game.""")
         count = 0
         while not self.game_solved:
             count += 1
-            self.prompt(self.player)
+            try:
+                self.prompt(self.player)
+            except:
+                pass
             
             if count%200 == 0:
                 for i, room in enumerate(self.rooms):
