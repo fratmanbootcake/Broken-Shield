@@ -65,10 +65,11 @@ class Game:
             elif choice == 2:
                 self.load()
                 chosen = True
+            else:
+                pass
 
     def new(self):
         self.rooms = rooms
-        self.npcs = npcs
         self.player = Player()
 
     def save(self):
@@ -88,8 +89,8 @@ class Game:
         time.sleep(0.5)
         print("saving")
         time.sleep(0.5)
-        self.speech("...\n")
-        self.speech("...\n")
+        self.speech("zzz\n")
+        self.speech("zzz\n")
         time.sleep(0.5)
         print("Saved \"{}\"'!".format(self.player.name))
 
@@ -119,10 +120,6 @@ class Game:
                 break
             else:
                 print("Please select save game number.")
-
-    def update(self):
-        for i, animal in enumerate(self.npcs):
-            animal.update(self.player, self.get_location())
 
     def game_help(self):
         """
@@ -249,8 +246,8 @@ type 'quit' to leave the game.""")
                 player.coin_purse += mob.money.value
                 print("You loot the {}'s corpse and find {} gold!.".format(mob.name, mob.money.value))
                 place.enemy = None
-                player.level_up() 
-
+                player.level_up()             
+                
     def game_setup(self):
         """
         This is the character creation and game setup.
