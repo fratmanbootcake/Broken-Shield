@@ -1,0 +1,7 @@
+room;Street;1,1;An empty street.;There is a cobble missing.;1,1,1,1;bed rusty_sword
+locked room;Gate;2,1;A locked gate.;The lock looks quite grand.;1,0,1,1;bed;1,1,1,1;001;False
+loot room;Warehouse;2,2;A large warehouse.;The chest is pretty beat up.;1,0,0,0;bed;001;False
+inn;The Howling Hound;1,2;A dingy tavern.;The fire crackles merrily.;1,0,0,0; bed
+shop;Gunnar's Goods;1,0;A small store.;The floor is dusty.;0,0,1,0;bed;rusty_sword leather_jerkin;100;blacksmith
+enemy room;Gate;3,1;The wilderness.;There are footprints in the mud.;1,1,1,1;bed;orc;70
+fetch quest;House;2,0;A dank house.;There is a banana on the floor.;0,0,1,0; bed;False;rusty_sword; ''; gold, 100;Find the rusty sword;Help us!;Thank you!
