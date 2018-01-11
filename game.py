@@ -154,63 +154,61 @@ type 'quit' to leave the game.""")
     def prompt(self, player):
         """
         """  
-        valid = True
         moved = False
-        while valid:
-            if moved:
-                for i, room in enumerate(self.rooms):
-                    if player.location == room.location and isinstance(room, QuestRoom):
-                        room.update(player)
-                    elif player.location == room.location and isinstance(room, BlockedRoom):
-                        room.update(player, place)
-                moved = False
-                
-            command = input('').split()
-            if len(command) == 3:
-                if command[1] in ADJECTIVES:
-                    command = [command[0], "{} {}".format(command[1], command[2])]
-                else:
-                    print("I don't understand...")
-            if command[0] in ['move']:
-                if player.move(command[1], self.rooms):
-                    self.check(self.get_location(), player)
-                    self.describe()
-                    moved = True
-            elif command[0] in ['look']:
-                player.look(self.get_location())
-            elif command[0] in ['inspect']:
-                player.inspect(command[1], self.get_location())
-            elif command[0] in ['take']:
-                player.take(command[1], self.rooms)
-            elif command[0] in ['drop']:
-                player.drop(command[1], self.get_location())
-            elif command[0] in ['equip']:
-                player.equip(command[1])
-            elif command[0] in ['unequip']:
-                player.unequip(command[1])
-            elif command[0] in ['heal','eat','drink']:
-                player.heal(command[1])
-            elif command[0] in ['info']:
-                player.info()
-            elif command[0] in ['try']:
-                player.open(command[1], self.get_location())
-            elif command[0] in ['trade']:
-                player.trade(self.get_location(), Shop)
-            elif command[0] in ['rest','sleep']:
-                if player.sleep(self.get_location(), Inn):
-                    self.save()
-            elif command[0] in ['inventory', 'i']:
-                player.print_inventory()
-            elif command[0] in ['equipped']:
-                player.print_equipped()
-            elif command[0] in ['describe']:
+        if moved:
+            for i, room in enumerate(self.rooms):
+                if player.location == room.location and isinstance(room, QuestRoom):
+                    room.update(player)
+                elif player.location == room.location and isinstance(room, BlockedRoom):
+                    room.update(player, place)
+            moved = False
+
+        command = input('').split()
+        if len(command) == 3:
+            if command[1] in ADJECTIVES:
+                command = [command[0], "{} {}".format(command[1], command[2])]
+            else:
+                print("I don't understand...")
+        if command[0] in ['move']:
+            if player.move(command[1], self.rooms):
+                self.check(self.get_location(), player)
                 self.describe()
-            elif command[0] in ['exits']:
-                self.get_location().show_exits()
-            elif command[0] in ['quit']:
-                sys.exit()
-            elif command[0] in ['map', 'm']:
-                self.print_map()
+                moved = True
+        elif command[0] in ['look']:
+            player.look(self.get_location())
+        elif command[0] in ['inspect']:
+            player.inspect(command[1], self.get_location())
+        elif command[0] in ['take']:
+            player.take(command[1], self.rooms)
+        elif command[0] in ['drop']:
+            player.drop(command[1], self.get_location())
+        elif command[0] in ['equip']:
+            player.equip(command[1])
+        elif command[0] in ['unequip']:
+            player.unequip(command[1])
+        elif command[0] in ['heal','eat','drink']:
+            player.heal(command[1])
+        elif command[0] in ['info']:
+            player.info()
+        elif command[0] in ['try']:
+            player.open(command[1], self.get_location())
+        elif command[0] in ['trade']:
+            player.trade(self.get_location(), Shop)
+        elif command[0] in ['rest','sleep']:
+            if player.sleep(self.get_location(), Inn):
+                self.save()
+        elif command[0] in ['inventory', 'i']:
+            player.print_inventory()
+        elif command[0] in ['equipped']:
+            player.print_equipped()
+        elif command[0] in ['describe']:
+            self.describe()
+        elif command[0] in ['exits']:
+            self.get_location().show_exits()
+        elif command[0] in ['quit']:
+            sys.exit()
+        elif command[0] in ['map', 'm']:
+            self.print_map()
 
     def get_location(self):
         for i, room in enumerate(self.rooms):
