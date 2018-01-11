@@ -68,9 +68,9 @@ class Orc(Enemy):
         
         super(Orc, self).__init__(name = "orc",
                          health = self.hp,
-                         weapon = Sword('A crude iron sword'),
+                         weapon = RustySword('A crude iron sword'),
                          exp = [25],
-                         armour = Leather('A simple leather jerkin'),
+                         armour = LeatherJerkin('A simple leather jerkin'),
                          description = self.words,
                          money = Gold(random.randint(5,15)),
                          max_health = self.hp,
