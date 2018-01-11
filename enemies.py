@@ -115,6 +115,6 @@ class Orc(Enemy):
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ WORLD ENEMIES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
-world_enemies = [Orc('A smelly orc!', None)]
+world_enemies = {'orc':Orc('A smelly orc!', None)}
 
 
