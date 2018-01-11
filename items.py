@@ -100,21 +100,7 @@ class Bed(Item):
                          takeable = False,
                          wearable = False)
 
-
-def all_loot():
-    all_loot = {'gold necklace':GoldNecklace('A simple gold chain'),
-                'sapphire':Sapphire('A small uncut gemstone'),
-                'gold':Gold(random.randint(10,50)),
-                'gold ring':GoldRing('A plain wedding band'),
-                'ruby':Ruby('A rather large fire-red ruby'),
-                'gold amulet':Amulet('An ornate gold amulet'),
-                'emerald':Emerald('A fingertip sized pure emerald'),
-                'diamond':Diamond('A tiny diamond. No doubt it\'s worth a lot!'),
-                }
-    
-    return all_loot
-
-
+        
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ARMOURS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
 class Leather(Armour):
@@ -180,7 +166,7 @@ class Fists(Weapon):
                          number = 2,
                          slot = 'hand',
                          edible = False,
-                         takeable = True,
+                         takeable = False,
                          wearable = True,
                          effect = ('poisoned', 0),
                          damage_type = 'crushing',
@@ -223,61 +209,7 @@ class Mace(Weapon):
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~ MONSTER WEAPONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
-class Fangs(Weapon):
 
-    def __init__(self, words):
-        self.words = words
-        super().__init__(name = 'fangs',
-                         description = self.words,
-                         value = 0,
-                         damage = 8,
-                         slot = 'hand',
-                         speed = 0,
-                         edible = False,
-                         takeable = False,
-                         wearable = False)
-
-class Tusks(Weapon):
-
-    def __init__(self, words):
-        self.words = words
-        super().__init__(name = 'tusks',
-                         description = self.words,
-                         value = 0,
-                         damage = 4,
-                         slot = 'hand',
-                         speed = 0,
-                         edible = False,
-                         takeable = False,
-                         wearable = False)
-
-class DragonTail(Weapon):
-
-    def __init__(self, words):
-        self.words = words
-        super().__init__(name = 'tail',
-                         description = self.words,
-                         value = 0,
-                         damage = 15,
-                         slot = 'hand',
-                         speed = 0,
-                         edible = False,
-                         takeable = False,
-                         wearable = False)
-        
-class GiantClub(Weapon):
-
-    def __init__(self, words):
-        self.words = words
-        super().__init__(name = 'tree',
-                         description = self.words,
-                         value = 0,
-                         damage = 12,
-                         slot = 'hand',
-                         speed = -1,
-                         edible = False,
-                         takeable = False,
-                         wearable = False)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FOODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
@@ -298,7 +230,7 @@ class StaleBread(Food):
 
     def __init__(self, words):
         self.words = words
-        super().__init__(name = 'bread',
+        super().__init__(name = 'stale bread',
                          description = self.words,
                          value = 1,
                          heal = 1,
@@ -431,12 +363,12 @@ item_list = {'blacksmith':[Chainmail('The interlocking rings should provide dece
                      Soup('A nice warm bowl of soup!')]}
 
 def all_loot():
-    all_loot = {'necklace':GoldNecklace('A simple gold chain'),
+    all_loot = {'gold necklace':GoldNecklace('A simple gold chain'),
                 'sapphire':Sapphire('A small uncut gemstone'),
                 'gold':Gold(random.randint(10,50)),
-                'ring':GoldRing('A plain wedding band'),
+                'gold ring':GoldRing('A plain wedding band'),
                 'ruby':Ruby('A rather large fire-red ruby'),
-                'amulet':Amulet('An ornate gold amulet'),
+                'gold amulet':Amulet('An ornate gold amulet'),
                 'emerald':Emerald('A fingertip sized pure emerald'),
                 'diamond':Diamond('A tiny diamond. No doubt it\'s worth a lot!'),
                 }
