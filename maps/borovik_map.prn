@@ -1,0 +1,14 @@
+       S    T                   ^    ^    ^                                                S  Shop
+  -    -    -    -    -    -    ^    ^    ^                                                T  Tavern
+       H    H         -         ^    ^    ^                                                H  House
+      BOROVIK         -    T    THE WILD WOODS                                             ^  Forest
+                      -            DALVIK                                                  -  Path
+                      -         S    -    H                                                C  Cave
+                      -    -    -    -    -    -                                           X  Player
+                      -         H    -    T                    
+          TOMB        -                                                                    N
+       -    C    -    -                                                                  W + E
+       -                        ^    ^    ^                                                S
+       -    -    -    -    -    ^    ^    ^
+                      -         ^    ^    ^
+                      -
