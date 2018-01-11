@@ -1,0 +1,16 @@
+to-do in near future
+- make casting a spell dependent on current mana. 
+- make mana regen per combat turn (dependent on player magic level)
+- create a puzzle room class 
+- create more items
+- create more enemies
+- create and populate rooms
+- create a game over screen
+
+potential future work
+- include more spells
+- include more status effects
+- include more combat actions
+- include more items
+- include more enemies
+- develop wandering, interacting npcs
