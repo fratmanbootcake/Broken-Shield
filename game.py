@@ -14,6 +14,7 @@ class Game:
 
     def __init__(self):
         self.game_solved = False
+        self.moved = False
 
     def title_screen(self):
         """
@@ -150,15 +151,20 @@ type 'quit' to leave the game.""")
 
     def prompt(self, player):
         """
+        This first section of code ensures that the relevant room updates are run only upon entering the room by checking
+        whether the previous action was a 'move'. If it was, the self.move attribute is True and the following code is run.
+        After this code block, the self.moved attribute is reset to False. Choosing the 'move' action will switch self.moved
+        to True.
         """  
-        moved = False
-        if moved:
+        
+        if self.moved:
             for i, room in enumerate(self.rooms):
                 if player.location == room.location and isinstance(room, QuestRoom):
                     room.update(player)
                 elif player.location == room.location and isinstance(room, BlockedRoom):
                     room.update(player, place)
-            moved = False
+        
+        self.moved = False
 
         command = input('').split()
         if len(command) == 3:
@@ -166,11 +172,12 @@ type 'quit' to leave the game.""")
                 command = [command[0], "{} {}".format(command[1], command[2])]
             else:
                 print("I don't understand...")
+                
         if command[0] in ['move']:
             if player.move(command[1], self.rooms):
                 self.check(self.get_location(), player)
                 self.describe()
-                moved = True
+                self.moved = True
         elif command[0] in ['look']:
             player.look(self.get_location())
         elif command[0] in ['inspect']:
