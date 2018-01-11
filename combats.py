@@ -345,10 +345,17 @@ class Combat:
             damage = self.combat_spells[attacker.known_spells[int(spell) - 1]](attacker, defender)
         return (damage, damage_reduction, damage_reflection, life_steal)
 
-
-
+    
     def combat_output(self, player, mob, player_damage, mob_damage):
         pass
+    
+    def battle_win(self, player, mob):
+        print("You defeated the {}!".format(mob.name))
+        player.exp[0] += mob.exp[0]
+        print("You gained {} exp!".format(mob.exp[0]))
+        player.coin_purse += mob.money.value
+        print("You loot the {}'s corpse and find {} gold!.".format(mob.name, mob.money.value))
+        player.level_up()
 
     """
     This section contains the main combat round method. The status of each combatant is checked, any relevant status effect 
@@ -382,7 +389,7 @@ class Combat:
             mob.update()
 
         if not mob.is_alive():
-            print("You win!")
+            self.battle_win(player, mob)
         if not player.is_alive():
             print("You lose!")
 
