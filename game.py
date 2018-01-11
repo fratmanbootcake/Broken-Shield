@@ -253,119 +253,6 @@ type 'quit' to leave the game.""")
                 place.enemy = None
                 player.level_up() 
 
-
-##    def combat(self, player, mob):
-##        """
-##        This function controls combat between the player and a monster. The number of rounds is counted to be used as a
-##        way of determining when the player or monster can attack if they're using a slow weapon. If the player does not
-##        have a weapon equipped, they equip the default weapon 'Fists' which deal 1 damage and have a speed of 1.
-##        The function then gets the player's input and then calls the relevant function. Once the function has been called
-##        it unequips the player's weapon. The function then determines whether the player is alive and if so, it breaks out
-##        of this loop via the 'return' statement.
-##        """
-##        print("The {} attacks you!".format(mob.name))
-##        rounds = 0
-##        while player.is_alive() and mob.is_alive():
-##            #### update player and mob status here ####
-##            #### allow random roll to remove status effects modified by skill ####
-##            rounds += 1
-##            if player.weapon is None:
-##                player.weapon = Fists()
-##            valid = True
-##            while valid:
-##                choice = input("What do you want to do?: ").split()
-##                #### attack ####
-##                """
-##                This section is used for when the player chooses to 'attack'. It determines whether the current round number
-##                is even or odd, which is used to determine whether the player or monster attack if they're wielding a slow
-##                weapon. To carry out the attack, the 'myPlayer.attack' and 'mob.attack' methods are called.
-##                If the '.attack' method returns True, the function exits via the 'return' statement. 
-##                """
-##                if choice[0].lower() == 'attack':
-##                    valid = False
-##                    if rounds % 2 == 1 and player.weapon.speed == -1:
-##                        if player.attack(mob):
-##                            return
-##                    elif player.weapon.speed == 0:
-##                        if player.attack(mob):
-##                            return
-##                    elif player.weapon.speed == 1:
-##                        if player.attack(mob):
-##                            return
-##                        time.sleep(1)
-##                        if player.attack(mob):
-##                            return
-##                    self.speech("...")
-##                    self.speech("\n...\n")
-##                    if rounds % 2 == 1 and mob.weapon.speed == -1:
-##                        if mob.attack(player):
-##                            return
-##                    elif mob.weapon.speed == 0:
-##                        if mob.attack(player):
-##                            return
-##                    elif mob.weapon.speed == 1:
-##                        if mob.attack(player):
-##                            return
-##                        time.sleep(1)
-##                        if mob.attack(player):
-##                            return
-##    ##            #### flee #### 
-##    ##            """
-##    ##            This section allows the player to flee from combat. The 'myPlayer.flee' method is called and then it breaks
-##    ##            from the current combat function.
-##    ##            """
-##                elif choice[0].lower() == 'flee':
-##                    player.flee()
-##                    return
-##                #### heal ####
-##    ##            """
-##    ##            This section is used for healing the player based on using an item in their inventory. The 'myPlayer.heal'
-##    ##            method is called and is passed the user-inputted item. The 'mob.attack' method is then called.
-##    ##            """
-##                elif choice[0].lower() == 'heal' and len(choice) == 2:
-##                    if player.heal(choice[1].lower()):
-##                        mob.attack(player)
-##                        valid = False
-##                    else:
-##                        print("You can't do that!")
-##                #### cast spell ####
-##    ##            """
-##    ##            This section is for casting spells. The 'myPlayer.cast' method is called and then the 'mob.attack' method
-##    ##            is called if the monster survives the spell. The monster will attack twice, once or pass based on its
-##    ##            weapon's attack speed and the current round.
-##    ##            """
-##                elif choice[0].lower() == 'cast' and len(choice) == 2:
-##                    valid = False
-##                    #player.weapon = None
-##                    if choice[1].lower() in player.known_spells:
-##                        if player.cast(mob, player.magic_level, **spells[choice[1].lower()]):
-##                            if mob.is_alive():
-##                                self.speech("...")
-##                                self.speech("\n...\n")
-##                                if rounds % 2 == 1 and mob.weapon.speed == -1:
-##                                    if mob.attack(player):
-##                                        return
-##                                elif mob.weapon.speed == 0:
-##                                    if mob.attack(player):
-##                                        return
-##                                elif mob.weapon.speed == 1:
-##                                    if mob.attack(player):
-##                                        return
-##                                    time.sleep(1)
-##                                    if mob.attack(player):                                   
-##                                        return
-##                            else:
-##                                pass
-##                        else:
-##                            pass
-##
-##                #### info ####
-##    ##            """
-##    ##            This section is used when the player wishes to see their current status. It calls the 'myPlayer.info' method.
-##    ##            """          
-##        if player.is_alive():
-##            return True
-
     def game_setup(self):
         """
         This is the character creation and game setup.
@@ -419,14 +306,16 @@ type 'quit' to leave the game.""")
                 return (key, player_location[0] - kwargs[key][0], \
                         player_location[1] - kwargs[key][1])
 
+            
     def game_loop(self):
         """
         This is the main game loop.
         """
         count = 0
-        while self.player.is_alive() and self.game_solved == False:
+        while self.player.is_alive() and not self.game_solved:
             count += 1
             self.prompt(self.player)
+            
             if count%200 == 0:
                 for i, room in enumerate(self.rooms):
                     if isinstance(room, Shop):
