@@ -17,5 +17,7 @@ class Character:
     def is_alive(self):
         if self.health > 0:
             return True
+        elif self.health <= 0:
+            return False
 
 
