@@ -3,6 +3,8 @@ from enemies import *
 import time
 import random
 import textwrap
+from settings import *
+from os import path
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ BASE ROOM ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
@@ -238,12 +240,6 @@ class EnemyRoom(Room):
         self.chance = chance
         super().__init__(name, location, desc, short_desc, exits, items)
 
-##    def check_enemy(self):
-##        if self.enemy is not None:
-##            return self.enemy
-##        elif self.enemy is None:
-##            return
-
     def random_mob(self):
         roll = Die(100).roll()
         if self.enemy:
@@ -262,14 +258,13 @@ class QuestRoom(Room):
         self.enemy = enemy
         self.reward = reward
         self.blurb = blurb
-        self.accepted = False
         super().__init__(name, location, desc, short_desc, exits, items)
         
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ QUESTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
 class FetchQuest(QuestRoom):
     #item fetch quest
-    def __init__(self, name, location, desc, short_desc, exits, items, done, item_1, enemy, reward, intro_text, outro_text, blurb):
+    def __init__(self, name, location, desc, short_desc, exits, items, done, item_1, enemy, reward, blurb, intro_text, outro_text):
         self.intro_text = intro_text
         self.outro_text = outro_text
         super().__init__(name, location, desc, short_desc, exits, items, done, item_1, enemy, reward, blurb)
@@ -299,7 +294,7 @@ class FetchQuest(QuestRoom):
 
 class KillQuest(QuestRoom):
     #mob kill quest
-    def __init__(self, name, location, desc, short_desc, exits, items, done, item_1, enemy, reward, intro_text, outro_text, blurb):
+    def __init__(self, name, location, desc, short_desc, exits, items, done, item_1, enemy, reward, blurb, intro_text, outro_text):
         self.intro_text = intro_text
         self.outro_text = outro_text
         super().__init__(name, location, desc, short_desc, exits, items, done, item_1, enemy, reward, blurb)
@@ -347,7 +342,7 @@ class BlockedRoom(Room):
     
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ WORLD MAP ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
-sword = Sword('A sword')
+sword = RustySword('A sword')
 book = Item('book', 'A heavy leather bound book.','20', False, True, False)
 ruby = Ruby('red')
 bed = Bed('a bed')
@@ -365,118 +360,73 @@ craig = Orc('a bad thug',None)
 #FetchQuest(name, location, desc, short_desc, exits, items, done, item_1, enemy, reward, intro_text, outro_text)
 #KillQuest(name, location, desc, short_desc, exits, items, done, item_1, enemy, reward, intro_text, outro_text)
 
-##a1 = KillQuest('a1', (0,0), 'quest1', 'super fun', (0,1,1,0), [], False, None, craig, Gold(55), 'Kill the thug!', 'You saved us! Thank you!')
-##b1 = Shop('b1', (1, 0), 'Shop', 'b1 room', (0, 0, 1, 1), [bed], [sword], 100, 'blacksmith')
-##b2 = LockedRoom('b2', (1, 1), 'Locked Room', 'b2 room', (1, 0, 0, 1), [bed], (1, 0, 1, 1), '001c', False)
-##a2 = LootRoom('a2', (0, 1), 'Loot Room', 'a2 room', (1, 1, 1, 0), [bed, sword], '001c', False)
-##b3 = Room('b3', (1, 2), 'room5', 'b3 room', (1, 0, 0, 0), [bed, ruby])
-##a3 = EnemyRoom('a3', (0, 2), 'room6', 'a3 room', (1, 0, 0, 0), [bed], craig, 50)
 
 
-d2 = Shop('Gunnar\'s Goods', (2, 0), '', '', (0, 0, 1, 0), [bed], [sword], 100, 'blacksmith')
-d2.desc = textwrap.fill("You enter a small, dark shop. Who you presume to be the owner \
-is hunched over a small desk counting coins. It would seem that \
-the shop sells a bit of everything.",80)
-d2.short_desc = textwrap.fill("There's a fairly solid looking sword handing on the wall.",80)
+world = {'room':Room,
+         'locked room':LockedRoom,
+         'loot room':LootRoom,
+         'inn':Inn,
+         'shop':Shop,
+         'enemy room':EnemyRoom,
+         'fetch quest':FetchQuest,
+         'kill quest':KillQuest}
 
-e2 = Inn('The Howling Hound', (3, 0), '', '', (0, 0, 1, 0), [bed])
-e2.desc = textwrap.fill("The noise inside the Howling Hound is deafening. \
-You can barely see in front of you for the swirling smoke from the many pipes. \
-The inkeep pours an ale and offers a room for the night, for a fee of course.",80)
-e2.short_desc = textwrap.fill("You notice grubby stains on the tankard the inkeep gave you.",80)
+rooms = []
 
-c3 = Room('Borovik Docks', (1, 1), '', '', (0, 1, 54, 0), [bed])
-c3.desc = textwrap.fill("The sea spray splashes on your face and the sound of seagulls \
-drowns out the shouting from the multitude of fishing ships that are unloading \
-barrel up barrel of fish.",80)
-c3.short_desc = textwrap.fill("You see a fisherman drop a barrel of fish overboard.",80)
-
-d54 = Room('Borovik Docks', (1, 55), '', '', (0, 1, 54, 0), [bed])
-d54.desc = textwrap.fill("The sea spray splashes on your face and the sound of seagulls \
-drowns out the shouting from the multitude of fishing ships that are unloading \
-barrel up barrel of fish.",80)
-d54.short_desc = textwrap.fill("You see a fisherman drop a barrel of fish overboard.",80)
-
-##d3 = Room('Borovik Sunset Gate', (2, 1), '', '', (1, 1, 1, 1), [bed])
-##d3.desc = textwrap.fill("The Sunset Gate of Borovik is open and people and traders are flowing through. \
-##You see farmer pulling his cart laden with potatoes.",80)
-##d3.short_desc = textwrap.fill("You're not sure, but it looks like that guard just took a bribe!",80)
-##
-e3 = Room('Borovik Sunrise Gate', (3, 1), '', '', (1, 1, 1, 1), [bed])
-e3.desc = textwrap.fill("People are crowding round the gate.",80)
-e3.short_desc = textwrap.fill("It seems one of the guards is asleep at his post.",80)
-
-f3 = Room('Dalvik Road', (4, 1), '', '', (0, 1, 0, 1), [bed])
-f3.desc = textwrap.fill("A simple paved road that stretches to the farm.",80)
-f3.short_desc = textwrap.fill("You see a small child practicing archery nearby.",80)
-
-g3 = KillQuest('Hakon\'s Farm', (5, 1), '', '', (0, 0, 1, 1), [bed], False, None, craig, Gold(50),'','','')
-g3.desc = textwrap.fill("Several cows are grazing lazily in the field.",80)
-g3.short_desc = textwrap.fill("The fence surrounding the field is in need of repair.",80)
-g3.intro_text = textwrap.fill("Excuse me! I need your help! There's an orc who's hiding\
-in the Wild Woods to the east. He's stolen several of my chickens recently.\
-If you could persuade him to go, it'd be much appreciated!",80)
-g3.outro_text = textwrap.fill("That's it? He's gone? I won't ask what happened.",80)
-g3.blurb = 'Kill the orc hiding in the forest.'
-
-i3 = Room('Wild Wood NW Corner', (7, 1), '', '', (0, 1, 1, 0), [bed])
-i3.desc = ""
-i3.short_desc = ""
-
-j3 = Room('Wild Wood NE Corner', (8, 1), '', '', (0, 0, 1, 1), [bed])
-j3.desc = ""
-j3.short_desc  = ""
-
-d4 = FetchQuest('Harold\'s House', (2, 2), '', '', (1, 0, 0, 0), None, False, book, None, 'heal', '', '','')
-d4.desc = ""
-d4.short_desc = ""
-d4.intro_text = textwrap.fill("Could you help me? \
-I seem to have misplaced my book... \
-It's quite a heavy book and it's leather bound. \
-If you could find it, I can teach you something worth knowing. \
-I would look but I'm rather busy.",80)
-d4.outro_text = textwrap.fill("Excellent! \
-You've found it! Thank you so much... \
-I can continue my work now. Here's the gold I promised you.",80)
-d4.blurb = 'Find the man\'s misplaced book.'
-
-e4 = Room('Borovik Side Alley', (3, 2), '', '', (1, 0, 0, 0), [bed, book]) # do item
-e4.desc = ""
-e4.short_desc = ""
-
-g4 = Room('Dalvik Road', (5, 2), '', '', (1, 1, 1, 0), [bed])
-g4.desc = ""
-g4.short_desc = ""
-
-h4 = Room('Goat Track', (6, 2), '', '', (0, 1, 0, 1), [bed])
-h4.desc = ""
-h4.short_desc = ""
-
-i4 = Room('Wild Wood W Edge', (7, 2), '', '', (1, 1, 1, 1), [bed])
-i4.desc = ""
-i4.short_desc = ""
-
-j4 = EnemyRoom('Wild Wood E Edge', (2, 1), '', '', (1, 0, 1, 1), [bed], craig, 50) # do enemy
-j4.desc = ""
-j4.short_desc = ""
-
-i5 = Room('Wild Wood SW Corner', (7, 3), '', '', (1, 1, 0, 0), [bed])
-i5.desc = ""
-i5.short_desc = ""
-
-j5 = Room('Wild Wood SE Corner', (8, 3), '', '', (1, 0, 0, 1), [bed])
-j5.desc = ""
-j5.short_desc = ""
+with open(os.path.join(game_folder, 'world.txt'),'r') as f:
+    for line in f:
+        l = line.strip("\n").split(";")
+        print(l)
+        name = l[1]
+        location = tuple(int(item) for item in l[2].split(",") if l[2].split())
+        desc = l[3]
+        short_desc = l[4]
+        exits = tuple(int(item) for item in l[5].split(",") if l[5].split())
+        items = [world_items[item] for item in l[6].split()]
+        
+        if l[0] == 'room' or  l[0] == 'inn': 
+            rooms.append(world[l[0]](name, location, desc, short_desc, exits, items))
+            
+        elif l[0] == 'locked room':
+            new_exits = tuple(int(item) for item in l[7].split(",") if l[7].split())
+            id_num = l[8]
+            opened = False if l[9] == 'false' else True
+            rooms.append(world[l[0]](name, location, desc, short_desc, exits, items, new_exits, id_num, opened))
+            
+        elif l[0] == 'loot room':
+            id_num = l[7]
+            opened = False if l[8] == 'false' else True
+            rooms.append(world[l[0]](name, location, desc, short_desc, exits, items, id_num, opened))
+            
+        elif l[0] == 'shop':
+            wares = [world_items[item] for item in l[7].split()] 
+            gold = Gold(int(l[8]))
+            profession = l[9]
+            rooms.append(world[l[0]](name, location, desc, short_desc, exits, items, wares, gold, profession))
+            
+        elif l[0] == 'enemy room':
+            enemy = world_enemies[l[7].strip()]
+            chance = int(l[8])
+            rooms.append(world[l[0]](name, location, desc, short_desc, exits, items, enemy, chance))
+            
+        elif l[0] in ['fetch quest','kill quest']:
+            done = False if l[7] == 'false' else True
+            reward = Gold(int(l[10].split(",")[1])) if l[10].strip().split(",")[0] == 'gold' else world_items[l[10].strip()] 
+            intro_text = l[12]
+            outro_text = l[13]
+            blurb = l[11]
+            if l[0] == 'fetch quest':
+                item_1 = world_items[l[8].strip()]
+                enemy = None
+            elif l[0] == 'kill quest':
+                item_1 = None
+                enemy = world_enemies[l[9]]
+            rooms.append(world[l[0]](name, location, desc, short_desc, exits, items, done, item_1, enemy, reward, blurb, intro_text, outro_text))
 
 
-
-
-rooms = [d2, e2, c3, e3, f3, g3, i3, j3, d4, e4, g4, h4, i4, j4, i5, j5, d54]
 DIRECTIONS = ['north','east','south','west']
 
 
 zones = {'borovik_map':(0, 0, 50, 50),
          'skallheim_map':(0, 50, 50, 50)}
-
-
         
