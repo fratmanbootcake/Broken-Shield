@@ -103,11 +103,11 @@ class Bed(Item):
         
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ARMOURS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
-class Leather(Armour):
+class LeatherJerkin(Armour):
 
     def __init__(self, words):
         self.words = words
-        super().__init__(name = 'leather',
+        super().__init__(name = 'leather jerkin',
                          description = self.words,
                          value = 35,
                          defence = 4,
@@ -120,6 +120,7 @@ class Leather(Armour):
                          weight = 3,
                          category = 'light')
 
+leatherJerkin = LeatherJerkin('A simple leather jerkin.')
 
 class Chainmail(Armour):
 
@@ -166,17 +167,17 @@ class Fists(Weapon):
                          number = 2,
                          slot = 'hand',
                          edible = False,
-                         takeable = False,
+                         takeable = True,
                          wearable = True,
                          effect = ('poisoned', 0),
                          damage_type = 'crushing',
                          governing_attribute = 'strength')
 
-class Sword(Weapon):
+class RustySword(Weapon):
 
     def __init__(self, words):
         self.words = words
-        super().__init__(name = 'sword',
+        super().__init__(name = 'rusty sword',
                          description = self.words,
                          value = 10,
                          damage_die = 2,
