@@ -229,24 +229,22 @@ type 'quit' to leave the game.""")
     def check(self, place, player):  
         if isinstance(place, EnemyRoom) and place.enemy is not None:
             mob = place.enemy
-            c = Combat(player, mob)
-            c.battle(player,mob)
-            if not mob.is_alive():
-                print("You gained {} exp!".format(mob.exp[0]))
-                player.exp[0] += mob.exp[0]
-                if mob.weapon.wearable == True or mob.weapon.takeable == True:
-                    place.items.append(mob.weapon)
-                    print("The {} drops its {}.".format(mob.name, mob.weapon.name))
-                if mob.armour.wearable == True:
-                    place.items.append(mob.armour)
-                    print("The {} drops its {}.".format(mob.name, mob.armour.name))
-                if mob.loot is not None:
-                    place.items.append(mob.loot)
-                    print("The {} drops a {}!".format(mob.name, mob.loot.name))
-                player.coin_purse += mob.money.value
-                print("You loot the {}'s corpse and find {} gold!.".format(mob.name, mob.money.value))
-                place.enemy = None
-                player.level_up()             
+            self.fight(player, mob)
+    
+    def fight(self, player, mob):
+        c = Combat(player, mob)
+        c.battle(player,mob)
+        if not mob.is_alive():
+            if mob.weapon.wearable == True or mob.weapon.takeable == True:
+                place.items.append(mob.weapon)
+                print("The {} drops its {}.".format(mob.name, mob.weapon.name))
+            if mob.armour.wearable == True:
+                place.items.append(mob.armour)
+                print("The {} drops its {}.".format(mob.name, mob.armour.name))
+            if mob.loot is not None:
+                place.items.append(mob.loot)
+                print("The {} drops a {}!".format(mob.name, mob.loot.name))
+            place.enemy = None
                 
     def game_setup(self):
         """
@@ -275,7 +273,15 @@ type 'quit' to leave the game.""")
         os.system('cls')
         print("Welcome {}, to the town of Borovik.".format(self.player.name))
 
-    
+    """
+    This section contains the 'print_map' method and assoicated 'check_zone' method. The players coordinates are spoofed
+    to ensure that the map drawn in the console shows the section of the world they are in. The map is read in line-by-line 
+    from a .prn file. The .prn files were generated from an excel spreadsheet. Each cell consisted of 5 spaces in the .prn
+    file with the character in the cell in the middle of the 5 spaces. The player's location is calculated based on the spoofed
+    coordinates and the offset and then an X is inserted at that position to represent the player. 
+    The 'check_zone' method returns the zone and the spoofed coordinates (player's coordinates relative to the origin of the 
+    map zone they are in).
+    """
 
     def print_map(self):
         zone = self.check_zone(self.get_location().location, **zones)[0]
@@ -301,6 +307,11 @@ type 'quit' to leave the game.""")
                 return (key, player_location[0] - kwargs[key][0], \
                         player_location[1] - kwargs[key][1])
 
+    """
+    This section contains the main 'game_loop' method which collects user input via the 'prompt' method wrapped in a try-except
+    statement to handle invalid input. The traders' wares and the enemy tiles are updated based on the count variable which ticks
+    up every cycle of the loop. 
+    """
             
     def game_loop(self):
         """
@@ -314,11 +325,11 @@ type 'quit' to leave the game.""")
             except:
                 pass
             
-            if count%200 == 0:
+            if count % 200 == 0:
                 for i, room in enumerate(self.rooms):
                     if isinstance(room, Shop):
                         room.update_wares()
-            if count%25 == 0:
+            if count % 25 == 0:
                 for i, room in enumerate(self.rooms):
                     if isinstance(room, EnemyRoom):
                         room.random_mob()
