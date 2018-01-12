@@ -3,6 +3,37 @@ from random import *
 from dice import *
 from items import *
 
+def attribute_modifier_calculator(**kwargs):
+    attribute_modifiers = {'strength':\
+                               0 if 8 < kwargs['strength'] <= 12 else \
+                               1 if 12 < kwargs['strength'] <= 15 else \
+                               2 if 15 < kwargs['strength'] <= 17 else \
+                               -1 if 5 < kwargs['strength'] <= 8 else \
+                               -2 if 3 < kwargs['strength'] <= 5 else \
+                               -3 if kwargs['strength'] == 3 else 3,
+                               'agility':\
+                               0 if 8 < kwargs['agility'] <= 12 else \
+                               1 if 12 < kwargs['agility'] <= 15 else \
+                               2 if 15 < kwargs['agility'] <= 17 else \
+                               -1 if 5 < kwargs['agility'] <= 8 else \
+                               -2 if 3 < kwargs['agility'] <= 5 else \
+                               -3 if kwargs['agility'] == 3 else 3,
+                               'constitution':\
+                               0 if 8 < kwargs['constitution'] <= 12 else \
+                               1 if 12 < kwargs['constitution'] <= 15 else \
+                               2 if 15 < kwargs['constitution'] <= 17 else \
+                               -1 if 5 < kwargs['constitution'] <= 8 else \
+                               -2 if 3 < kwargs['constitution'] <= 5 else \
+                               -3 if kwargs['constitution'] == 3 else 3,
+                               'willpower':\
+                               0 if 8 < kwargs['willpower'] <= 12 else \
+                               1 if 12 < kwargs['willpower'] <= 15 else \
+                               2 if 15 < kwargs['willpower'] <= 17 else \
+                               -1 if 5 < kwargs['willpower'] <= 8 else \
+                               -2 if 3 < kwargs['willpower'] <= 5 else \
+                               -3 if kwargs['willpower'] == 3 else 3,}
+    
+    return attribute_modifiers
 
 class Enemy(Character):
 
@@ -35,34 +66,7 @@ class Orc(Enemy):
                     'constitution':12,
                     'willpower':8}
         
-        self.attribute_modifiers = {'strength':\
-                               0 if 8 < self.attributes['strength'] <= 12 else \
-                               1 if 12 < self.attributes['strength'] <= 15 else \
-                               2 if 15 < self.attributes['strength'] <= 17 else \
-                               -1 if 5 < self.attributes['strength'] <= 8 else \
-                               -2 if 3 < self.attributes['strength'] <= 5 else \
-                               -3 if self.attributes['strength'] == 3 else 3,
-                               'agility':\
-                               0 if 8 < self.attributes['agility'] <= 12 else \
-                               1 if 12 < self.attributes['agility'] <= 15 else \
-                               2 if 15 < self.attributes['agility'] <= 17 else \
-                               -1 if 5 < self.attributes['agility'] <= 8 else \
-                               -2 if 3 < self.attributes['agility'] <= 5 else \
-                               -3 if self.attributes['agility'] == 3 else 3,
-                               'constitution':\
-                               0 if 8 < self.attributes['constitution'] <= 12 else \
-                               1 if 12 < self.attributes['constitution'] <= 15 else \
-                               2 if 15 < self.attributes['constitution'] <= 17 else \
-                               -1 if 5 < self.attributes['constitution'] <= 8 else \
-                               -2 if 3 < self.attributes['constitution'] <= 5 else -3\
-                               -3 if self.attributes['constitution'] == 3 else 3,
-                               'willpower':\
-                               0 if 8 < self.attributes['willpower'] <= 12 else \
-                               1 if 12 < self.attributes['willpower'] <= 15 else \
-                               2 if 15 < self.attributes['willpower'] <= 17 else \
-                               -1 if 5 < self.attributes['willpower'] <= 8 else \
-                               -2 if 3 < self.attributes['willpower'] <= 5 else -3\
-                               -3 if self.attributes['willpower'] == 3 else 3}
+        self.attribute_modifiers = attribute_modifier_calculator(**self.attributes)
         
         self.hp = sum(Die(8).roll() for i in range(2)) + 3
         
