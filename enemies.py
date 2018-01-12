@@ -66,7 +66,7 @@ class Orc(Enemy):
                     'constitution':12,
                     'willpower':8}
         
-        self.attribute_modifiers = attribute_modifier_calculator(self.attributes)
+        self.attribute_modifiers = attribute_modifier_calculator(**self.attributes)
         
         self.hp = sum(Die(8).roll() for i in range(2)) + 3
         
