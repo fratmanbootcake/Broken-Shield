@@ -3,7 +3,6 @@ from dice import *
 from items import *
 from settings import *
 from enemies import *
-from spell import *
 import textwrap
 
 
