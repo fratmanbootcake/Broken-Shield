@@ -22,7 +22,7 @@ NEUTRAL = 'neutral'
 FRIENDLY = 'friendly'
 UNFRIENDLY = 'unfriendly'
 
-ADJECTIVES = ['rusty', 'iron', 'steel', 'broken', 'gold', 'bent', 'old', 'new',
+ADJECTIVES = ['rusty', 'leather', 'iron', 'steel', 'broken', 'gold', 'bent', 'old', 'new',
               'fine', 'sharp', 'blunt', 'dull', 'silver', 'small', 'big',
               'tiny', 'huge', 'clean', 'mouldy', 'stale', 'fresh', 'ancient',
               'dusty', 'cracked']
