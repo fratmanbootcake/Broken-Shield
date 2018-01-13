@@ -374,6 +374,8 @@ class Door(DoorSkeleton):
 
 world_items = {'leather_jerkin': LeatherJerkin('A simple leather jerkin.'),
                'rusty_sword': RustySword('A simple, rusted sword.'),
+               'sword': Sword('A simple sword about 12 inches long.'),
+               'chainmail': Chainmail('The interlocking rings should provide decent protection.'),
                'bed':Bed('')}
 
 item_list = {'blacksmith':[Chainmail('The interlocking rings should provide decent protection.'),
