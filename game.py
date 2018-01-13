@@ -7,7 +7,6 @@ from player import *
 from tiles import *
 from settings import *
 from combats import *
-from npcs import *
 import pickle
 
 class Game:
