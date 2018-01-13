@@ -197,7 +197,9 @@ type 'quit' to leave the game.""")
         elif command[0] in ['try']:
             player.open(command[1], self.get_location())
         elif command[0] in ['trade']:
-            player.trade(self.get_location(), Shop)
+            room = self.get_location()
+            if isinstance(room, Shop):
+                room.barter(self.player)
         elif command[0] in ['rest','sleep']:
             if player.sleep(self.get_location(), Inn):
                 self.save()
