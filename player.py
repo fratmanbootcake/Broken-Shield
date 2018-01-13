@@ -462,19 +462,6 @@ class Player(Character):
                     return
         print("You don't have a key!")
 
-    
-
-    def trade(self, room, shop):
-        if isinstance(room, shop):
-            shop.barter(self)
-        else:
-            print("This isn't a shop!")
-
-
-class Mage(Player):
-
-    def __init__(self):
-        super(Mage, self).__init__()
 
 
 
