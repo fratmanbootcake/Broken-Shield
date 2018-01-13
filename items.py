@@ -186,9 +186,26 @@ class RustySword(Weapon):
                          edible = False,
                          takeable = True,
                          wearable = True,
-                         effect = ('poisoned', 30),
+                         effect = ('poisoned', 10),
                          damage_type = 'slashing',
                          governing_attribute = 'strength')
+
+class Sword(Weapon):
+
+    def __init__(self, words):
+        self.words = words
+        super().__init__(name = 'sword',
+                         description = self.words,
+                         value = 10,
+                         damage_die = 4,
+                         number = 3,
+                         slot = 'hand',
+                         edible = False,
+                         takeable = True,
+                         wearable = True,
+                         effect = (None, 0),
+                         damage_type = 'slashing',
+                         governing_attribute = 'strength')        
         
 
 class Mace(Weapon):
