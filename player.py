@@ -190,60 +190,6 @@ class Player(Character):
              return room.rest(self)   
         elif not isinstance(room, inn):
             print("You can't sleep here!")
-            
-
-##    #### combat actions ####
-##    #### player inherits 'attack' ####
-##
-##    def flee(self):
-##        self.location = self.previous_location
-##        print("You flee back the way you came!")
-##        return True
-##
-##    def cast(self, mob, magic_level, **spells):
-##        dice = spells.get('dice')[magic_level]
-##        mana = spells.get('mana cost')[magic_level]
-##        category = spells.get('type')
-##        description = spells.get('description')
-##        target = spells.get('target')
-##
-##        if self.mana < mana:
-##            print("You can't cast this spell! You don't have enough mana!")
-##            return False
-##        else:
-##            self.mana -= mana 
-##            damage = sum(Die(dice[1]).roll() for i in range(dice[0]))
-##            attack_bonus = magic_level
-##            roll = random.randint(1,20)
-##            if target == 'enemy':
-##                if roll + attack_bonus > mob.armour.defence:
-##                    if mob.weakness == category:
-##                        damage *= 2
-##                        mob.health -= damage
-##                        print("You {}!".format(description))
-##                        print("{} suffers {} damage!".format(mob.name, damage))
-##                        return True
-##                    elif mob.resistance == category:
-##                        damage *= 0.5
-##                        mob.health -= damage
-##                        print("You {}!".format(description))
-##                        print("{} suffers {} damage!".format(mob.name, damage))
-##                        return True
-##                    else:
-##                        mob.health -= damage
-##                        print("You {}!".format(description))
-##                        print("{} suffers {} damage!".format(mob.name, damage))
-##                        return True
-##                else:
-##                    print("You miss!")
-##                    return True
-##            elif target == 'self':
-##                self.health += damage ## actually healing
-##                print("You heal for {} health!".format(damage))
-##                return True
-##            
-##    def Strike(self, mob):
-##        pass
 
     #### general interactions ####
 
