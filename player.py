@@ -353,30 +353,16 @@ class Player(Character):
 
         
     def info(self):
-        try:
-            print("Your health is {}.".format(self.health))
-        except:
-            pass
-        try:
-            print("Your mana is {}.".format(self.mana))
-        except:
-            pass
+        print("Your health is {}.".format(self.health))
+        print("Your mana is {}.".format(self.mana))
         try:
             print("Your armour is {}.".format(self.armour.defence))
         except:
             print("Your aren't wearing any armour!")
-        try:
-            print("Your level is {}.".format(self.level))
-        except:
-            pass
-        try:
-            print("Your experience is {}.".format(self.exp[0]))
-        except:
-            pass
-        try:
-            print("Experience to next level is {}.".format(self.exp[1]-self.exp[0]))
-        except:
-            pass
+        print("Your level is {}.".format(self.level))
+        print("Your experience is {}.".format(self.exp[0]))
+        print("Experience to next level is {}.".format(self.exp[1]-self.exp[0]))
+
         
     def drop(self, thing, room):
         item_dropped = False
@@ -441,18 +427,13 @@ class Player(Character):
     def open(self, key, place):
         for i, item in enumerate(self.inventory):
             if item.name == key:
-                print("1")
                 if isinstance(place, LockedRoom):
-                    print("2a")
                     if place.id_num == item.id_num:
-                        print("3a")
                         place.unlock_door(key, self)
                         del self.inventory[i]
                         return
                 elif isinstance(place, LootRoom):
-                    print("2b")
                     if place.id_num == item.id_num:
-                        print("3b")
                         place.unlock_chest(key, self, all_loot)
                         del self.inventory[i]
                         return
